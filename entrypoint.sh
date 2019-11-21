@@ -26,6 +26,11 @@ if [[ -z "$SLUG" ]]; then
 fi
 echo "ℹ︎ SLUG is $SLUG"
 
+if [[ -z "$PLUGIN_DIR" ]]; then
+	PLUGIN_DIR=""
+fi
+echo "ℹ︎ PLUGIN_DIR is $PLUGIN_DIR"
+
 # Does it even make sense for VERSION to be editable in a workflow definition?
 if [[ -z "$VERSION" ]]; then
 	VERSION=${GITHUB_REF#refs/tags/}
@@ -54,7 +59,7 @@ if [[ -e "$GITHUB_WORKSPACE/.distignore" ]]; then
 	echo "ℹ︎ Using .distignore"
 	# Copy from current branch to /trunk, excluding dotorg assets
 	# The --delete flag will delete anything in destination that no longer exists in source
-	rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/" trunk/ --delete
+	rsync -rc --exclude-from="$GITHUB_WORKSPACE/.distignore" "$GITHUB_WORKSPACE/$PLUGIN_DIR/" trunk/ --delete
 else
 	echo "ℹ︎ Using .gitattributes"
 
